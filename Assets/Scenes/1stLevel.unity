@@ -22478,7 +22478,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHealth: {fileID: 1781611871}
   moveSpeed: 3
-  attackRange: 3
+  attackRange: 6
   animator: {fileID: 1781611874}
   player: {fileID: 936443518}
   isAttacking: 0

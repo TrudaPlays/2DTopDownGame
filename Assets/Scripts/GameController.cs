@@ -28,6 +28,9 @@ public class GameController : MonoBehaviour
     public SpriteRenderer bearSpriteRenderer;
     public SpriteRenderer dinoSpriteRenderer;
 
+    public float bearEnemyHealth = 150f;
+    public float dinoEnemyHealth = 300f;
+
     public static event Action OnGameReset;
 
     private void Awake()
@@ -55,7 +58,6 @@ public class GameController : MonoBehaviour
             gameIsFinished = true;
             gameFinishedScreen.SetActive(true);
             Debug.Log("You finished the game!");
-
         }
     }
 
@@ -92,6 +94,8 @@ public class GameController : MonoBehaviour
         player.transform.position = new Vector3(0f, 0f, 0f);
         bearEnemy.GetComponent<EnemyHealth>().ResetEnemy();
         dinoEnemy.GetComponent<EnemyHealth>().ResetEnemy();
+        bearEnemy.GetComponent<EnemyHealth>().enemyHealth = bearEnemyHealth;
+        dinoEnemy.GetComponent<EnemyHealth>().enemyHealth = dinoEnemyHealth;
         ResetGameCamera();
         Time.timeScale = 1f;
         OnGameReset?.Invoke();
@@ -101,5 +105,18 @@ public class GameController : MonoBehaviour
     void Update()
     {
         CheckEnemyCount();
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetGame();
+        }
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            // This code only exists in the final built version of the game
+            Application.Quit();
+#endif
+        }
     }
 }

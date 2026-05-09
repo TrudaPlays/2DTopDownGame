@@ -54,7 +54,6 @@ public class EnemyHealth : MonoBehaviour
             gameObject.SetActive(false);
             isBeingHit = false;
             enemyMovement.isAttacking = false;
-            enemyHealth = 150f;
             spriteRenderer.color = Color.white;
             timer = 0;
         }

@@ -85,7 +85,11 @@ public class KnightEnemyMovement : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("PlayerHurtBox"))
         {
-            StartCoroutine(KnockPlayerBack());
+            Vector2 delta = player.transform.position - transform.position;
+            Vector2 direction = delta.normalized;
+            sfxScript.PlayerGotHit();
+            playerRB.velocity = direction * playerHitBackSpeed;
+            playerMovement.startPlayerKnockedBackCoroutine = true;
             Debug.Log("Player hit!");
             PlayerHealth playerHealth = collision.GetComponentInParent<PlayerHealth>();
             if (playerHealth)
@@ -93,19 +97,6 @@ public class KnightEnemyMovement : MonoBehaviour
                 playerHealth.TakeDamage(damage);
             }
         }
-    }
-
-    private IEnumerator KnockPlayerBack()
-    {
-        Vector2 delta = player.transform.position - transform.position;
-        Vector2 direction = delta.normalized;
-        playerMovement.isBeingKnockedBack = true;
-        sfxScript.PlayerGotHit();
-        playerRB.velocity = direction * playerHitBackSpeed;
-        yield return new WaitForSeconds(0.2f);
-        playerRB.velocity = Vector2.zero;
-        playerMovement.isBeingKnockedBack = false;
-
     }
 }
 

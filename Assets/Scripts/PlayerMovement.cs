@@ -14,8 +14,8 @@ public class PlayerMovement : MonoBehaviour
     public PlayerSFX sfxScript;
     public GameObject enemy;
 
+    public bool startPlayerKnockedBackCoroutine = false;
     public bool isBeingKnockedBack = false;
-
     public bool isAttacking = false;
 
     // Start is called before the first frame update
@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (startPlayerKnockedBackCoroutine) StartCoroutine(KnockPlayerBack());
         if(!isBeingKnockedBack)
         {
             rb.velocity = moveInput * moveSpeed;
@@ -72,6 +73,12 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("isAttacking", false);
     }
 
-    
-
+    private IEnumerator KnockPlayerBack()
+    {
+        startPlayerKnockedBackCoroutine = false;
+        isBeingKnockedBack = true;
+        yield return new WaitForSeconds(0.2f);
+        rb.velocity = Vector2.zero;
+        isBeingKnockedBack = false;
+    }
 }
